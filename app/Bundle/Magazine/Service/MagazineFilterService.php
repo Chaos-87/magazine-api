@@ -42,12 +42,15 @@ trait MagazineFilterService
             foreach ($filters as $filter => $value) {
                 switch ($filter) {
                     case 'publishers':
+                        $publisherIds = [];
                         if (is_string($value) || is_int($value)) {
                             $idPublisher = (int)$value;
-                            ($idPublisher > 0) ? $value[] = $idPublisher : null;
+                            ($idPublisher > 0) ? $publisherIds[] = $idPublisher : null;
+                        }elseif (is_array($value)){
+                            $publisherIds = $value;
                         }
-                        if (is_array($value)) {
-                            $this->filters['publisher_id'] = $value;
+                        if (!empty($publisherIds)) {
+                            $this->filters['publisher_id'] = $publisherIds;
                         }
                         break;
                     case 'name':
